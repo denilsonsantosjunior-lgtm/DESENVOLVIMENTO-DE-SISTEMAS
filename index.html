@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woman Protector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    h1, h2 {
+      color: #d32f2f;
+    }
+
+    section {
+      background: #fff;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    input, textarea, button {
+      margin: 5px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+    }
+
+    #chatMensagens {
+      border: 1px solid #ccc;
+      height: 100px;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 5px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Protege Mulher</h1>
+
+  <!-- Cadastro de usuário -->
+  <section>
+    <h2>Cadastro de Usuário</h2>
+    <input type="text" id="nome" placeholder="Nome">
+    <input type="email" id="email" placeholder="Email">
+    <button onclick="cadastrarUsuario()">Cadastrar</button>
+  </section>
+
+  <!-- Localização -->
+  <section>
+    <h2>Localização</h2>
+    <p id="localizacao">Obtendo localização...</p>
+    <button onclick="obterLocalizacao()">Atualizar Localização</button>
+  </section>
+
+  <!-- Botão de emergência -->
+  <section>
+    <h2>Botão de Emergência</h2>
+    <button style="background-color: red;" onclick="acionarEmergencia()">EMERGÊNCIA</button>
+  </section>
+
+  <!-- Chat de ajuda -->
+  <section>
+    <h2>Chat de Ajuda</h2>
+    <div id="chatMensagens"></div>
+    <input type="text" id="mensagemChat" placeholder="Digite sua mensagem">
+    <button onclick="enviarMensagem()">Enviar</button>
+  </section>
+
+  <!-- Denúncia anônima -->
+  <section>
+    <h2>Denúncia Anônima</h2>
+    <textarea id="denuncia" placeholder="Escreva sua denúncia" rows="3"></textarea>
+    <button onclick="enviarDenuncia()">Enviar</button>
+  </section>
+
+  <script>
+    // Cadastro de usuário
+    function cadastrarUsuario() {
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      if(nome && email) {
+        alert(`Usuário ${nome} cadastrado com email ${email}`);
+        document.getElementById('nome').value = '';
+        document.getElementById('email').value = '';
+      } else {
+        alert('Preencha todos os campos!');
+      }
+    }
+
+    // Localização
+    function obterLocalizacao() {
+      const p = document.getElementById('localizacao');
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          const { latitude, longitude } = pos.coords;
+          p.textContent = `Latitude: ${latitude.toFixed(5)}, Longitude: ${longitude.toFixed(5)}`;
+        }, () => {
+          p.textContent = 'Não foi possível obter a localização.';
+        });
+      } else {
+        p.textContent = 'Geolocalização não suportada pelo navegador.';
+      }
+    }
+    obterLocalizacao(); // chama ao carregar a página
+
+    // Botão de emergência
+    function acionarEmergencia() {
+      alert('Botão de emergência acionado!');
+    }
+
+    // Chat de ajuda
+    function enviarMensagem() {
+      const input = document.getElementById('mensagemChat');
+      const msg = input.value.trim();
+      if(msg) {
+        const div = document.getElementById('chatMensagens');
+        const p = document.createElement('p');
+        p.textContent = msg;
+        div.appendChild(p);
+        div.scrollTop = div.scrollHeight;
+        input.value = '';
+      }
+    }
+
+    // Denúncia anônima
+    function enviarDenuncia() {
+      const textarea = document.getElementById('denuncia');
+      const denuncia = textarea.value.trim();
+      if(denuncia) {
+        alert('Denúncia enviada com sucesso!');
+        textarea.value = '';
+      } else {
+        alert('Escreva algo antes de enviar!');
+      }
+    }
+
+  </script>
+
+</body>
+</html>
